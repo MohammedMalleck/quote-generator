@@ -49,11 +49,14 @@ main{
   translate:0rem -0.2rem;
 }
 .quote-text-container > i,
-.text > i{
+#end-quotation{
   font-size:1.7rem;
 }
-.text > i{
-  translate:0rem -0.7rem;
+#end-quotation{
+  translate:0.5rem -1rem;
+}
+.last-word{
+  white-space: nowrap;
 }
 .author-name-container{
   width: 100%;

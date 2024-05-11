@@ -6,16 +6,22 @@ async function getAndDisplayQuote(){
 };
 getAndDisplayQuote();
 
-function renderHTML(quote,authorName){
+function renderHTML(quoteString,authorName){
+  const quoteWords = quoteString.split(' ');
+  const lastWord = quoteWords[quoteWords.length - 1];
+
   const quoteTextEl = document.querySelector('.text span');
   const authorNameEl = document.querySelector('.author-name');
 
-  quoteTextEl.innerHTML = quote;
+  const modifiedQuoteStirng = quoteString.replace(lastWord,`<span class="last-word">${lastWord}<i id="end-quotation" class="fa-solid fa-quote-right"></i>
+  </span>`);
+
+  quoteTextEl.innerHTML = modifiedQuoteStirng;
   authorNameEl.innerHTML = authorName;
 };
 
 document.querySelector('.new-quote-button').addEventListener('click',()=>{
-  document.querySelector('.text span').innerHTML = 'Loading';
+  document.querySelector('.text span').innerHTML = 'Loading<i id="end-quotation" class="fa-solid fa-quote-right"></i>';
   document.querySelector('.author-name').innerHTML = 'Loading';
   getAndDisplayQuote();
 });
