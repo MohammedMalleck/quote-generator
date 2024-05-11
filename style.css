@@ -46,21 +46,18 @@ main{
 .quote-text-container{
   font-family: "Red Hat Display", sans-serif;
   font-size: 2.4rem;
+  display: flex;
 }
-.text{
-  position: relative;
+.quote-text-container > i{
+  margin-right:0.5rem;
+  translate:0rem -0.2rem;
 }
-#quote-left,
-#quote-right{
-  position: absolute;
+.quote-text-container > i,
+.text > i{
   font-size:1.7rem;
 }
-#quote-left{
-  top:-0.5rem;
-  left:-2rem;
-}
-#quote-right{
-  right:-2rem;
+.text > i{
+  translate:0rem -0.7rem;
 }
 .author-name-container{
   width: 100%;
