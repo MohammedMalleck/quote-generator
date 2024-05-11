@@ -10,10 +10,6 @@
   --icons-hover-bg:#a2cece;
   --border-color:#1d3557;
 }
-a{
-  color: black;
-  text-decoration: none;
-}
 html{
   font-size: 62.5%;
 }
@@ -76,13 +72,13 @@ main{
   width:100%;
   display: flex;
   justify-content: space-between;
-  height:2.8rem;
+  height:3rem;
 }
 .toolbar{
   display: flex;
   width:9.2rem;
 }
-.toolbar > div{
+.toolbar > button{
   flex: 1;
   display: flex;
   align-items: center;
@@ -91,27 +87,42 @@ main{
   background-color:var(--icons-bg);
   cursor: pointer;
   position: relative;
+  border:none;
 }  
-.toolbar > div:hover{
+.toolbar > button:hover{
   background-color:var(--icons-hover-bg);
 }
-.toolbar > div:nth-child(1){
+.toolbar > button:nth-child(1){
   border-top-left-radius: 100vw;
   border-bottom-left-radius: 100vw;
 }
-.toolbar > div:nth-child(4){
+.toolbar > button:nth-child(3){
   border-top-right-radius: 100vw;
   border-bottom-right-radius: 100vw;
 }
-.toolbar > div:nth-child(4):has(.share-options-tooltip:hover){
+.toolbar > button:nth-child(3):has(.share-options-tooltip:hover){
   background-color: var(--icons-bg);
 }
-.toolbar > div:nth-child(1),
-.toolbar > div:nth-child(2){
-  border-right: 0.2rem solid var(--border-color);
-}
-.toolbar > div:nth-child(3){
+.toolbar > button:nth-child(1) > i:nth-child(2),
+.toolbar > button:nth-child(2) > i:nth-child(2){
   display: none;
+}
+.toolbar > button:nth-child(1).active > i:nth-child(2),
+.toolbar > button:nth-child(2).active > i:nth-child(2){
+  display:flex;
+}
+.toolbar > button:nth-child(1).active > i:nth-child(1),
+.toolbar > button:nth-child(2).active > i:nth-child(1){
+  display:none;
+}
+
+.toolbar > button:nth-child(3).active > .share-options-tooltip{
+  height:130%;
+}
+
+.toolbar > button:nth-child(1),
+.toolbar > button:nth-child(2){
+  border-right: 0.2rem solid var(--border-color);
 }
 .new-quote-button{
   background-color: var(--primary-color);
@@ -123,6 +134,7 @@ main{
   width:9rem;
   border-radius: 100vw;
   cursor: pointer;
+  border: none;
 }
 .new-quote-button:hover{
   filter: brightness(95%);
@@ -138,9 +150,6 @@ main{
   overflow: hidden;
   transition: height 0.6s ease;
 }
-.share-options-tooltip.show{
-  height:130%;
-}
 .triangle{
   width: 0;
   height: 0;
@@ -152,22 +161,17 @@ main{
   width:7rem;
   height: 2.5rem;
   display: flex;
-  gap: 0.5rem;  
-  overflow-x: auto;
   border-radius: 100vw;
   background-color:var(--icons-bg);
+  overflow: hidden;
 }
-.share-options-container::-webkit-scrollbar{
-  display: none;
-}
-.share-options-container > a{
-  flex-shrink: 0;
-  width:46.5%;
+.share-options-container > div{
+  flex:1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
 }
-.share-options-container > a:hover{
+.share-options-container > div:hover{
   background-color: var(--icons-hover-bg);
 }
