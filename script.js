@@ -1,10 +1,11 @@
+getAndDisplayQuote();
+
 async function getAndDisplayQuote(){
   const response = await fetch('https://api.quotable.io/quotes/random');
   const quoteArray = await response.json();
   const quoteObject = quoteArray[0];
   renderHTML(quoteObject.content,quoteObject.author);
 };
-getAndDisplayQuote();
 
 function renderHTML(quoteString,authorName){
   const quoteWords = quoteString.split(' ');
@@ -27,30 +28,66 @@ document.querySelector('.new-quote-button').addEventListener('click',()=>{
 });
 
 
+class SpeakButton{
+  #element;
+  #playing;
+  #paused;
 
-document.querySelector('.toolbar > button:nth-child(1)').addEventListener('click',()=>{
-  handleTextToSpeech();
-});
+  constructor(element){
+    this.#element = element;
+  }
 
-function handleTextToSpeech(){
-  const playBtn = document.querySelector('.toolbar > button:nth-child(1)');
-  playBtn.classList.toggle('active');
+  addEvent(){
+    this.#element.addEventListener('click',()=>{
+      const playBtn = document.querySelector('.toolbar > button:nth-child(1)');
+      const speech = new SpeechSynthesisUtterance();
+      this.addEndEvent(speech);
+      const synth = window.speechSynthesis;
+    
+      if(this.#playing) {
+        synth.pause();
+        this.#paused = true;
+        this.#playing = false;
+        playBtn.classList.toggle('active');
+        return;
+      }else if(!this.#playing && this.#paused){
+        synth.resume();
+        this.#paused = false;
+        this.#playing = true;
+        playBtn.classList.toggle('active');
+        return;
+      } 
 
-  const speech = new SpeechSynthesisUtterance();
-  const textContent = document.querySelector('.text span').textContent;
-  const synth = window.speechSynthesis;
-  const voices = synth.getVoices();
+      playBtn.classList.toggle('active');
+      this.#playing = true;
+    
+      const textContent = document.querySelector('.text span').textContent;
+      const voices  = synth.getVoices();
 
-  speech.text = textContent;
-  speech.voice = voices[0];
-  speech.rate = 1;
-  synth.speak(speech);
+      speech.text = textContent;
+      speech.voice = voices[0];
+      console.log(speech.voice)
+      synth.speak(speech);
+    });
+  };
+
+  addEndEvent(speech){
+    speech.addEventListener('end',()=>{
+      const playBtn = document.querySelector('.toolbar > button:nth-child(1)');
+      playBtn.classList.remove('active');
+
+      this.#playing = false;
+      this.#paused = false;
+    });
+  };
 
 };
 
+new SpeakButton(document.querySelector('.toolbar > button:nth-child(1)')).addEvent();
+
 class CopyBtn{
   #timeout = false;
-  #button
+  #button;
 
   constructor(button){
     this.#button = button;
@@ -64,7 +101,7 @@ class CopyBtn{
         this.#timeout = false;
       }else{
         this.#button.classList.add('active');
-      }
+      };
     
       this.#timeout = setTimeout(()=>{
         this.#button.classList.remove('active');
@@ -74,8 +111,7 @@ class CopyBtn{
       const quote = document.querySelector('.text span').textContent;
       const authorName = document.querySelector('.author-name').textContent;
       const string = `"${quote}" - ${authorName}`;
-      navigator.clipboard.writeText(string);
-      
+      navigator.clipboard.writeText(string);      
     });
   };
 };
