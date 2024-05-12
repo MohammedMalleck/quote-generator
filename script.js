@@ -134,7 +134,13 @@ document.querySelector('.js-twitter-icon').addEventListener('click',()=>{
   const quote = document.querySelector('.text span').textContent;
   const authorName = document.querySelector('.author-name').textContent;
   const string = `"${quote}" - ${authorName}`;
+  const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
+  const windowWidth = 600;
+  const windowHeight = 300; 
+  const left = (screenWidth - windowWidth) / 2;
+  const top = (screenHeight - windowHeight) / 2;
 
-  window.open(`https://twitter.com/intent/tweet?text=${string}` , "Tweet Window" , "width=600 , height=300" );
+  window.open(`https://twitter.com/intent/tweet?text=${string}` , "Tweet Window" , `width=${windowWidth}, height=${windowHeight}" , left=${left} , top=${top}` );
 });
 
