@@ -21,17 +21,12 @@ function renderHTML(quoteString,authorName){
   authorNameEl.innerHTML = authorName;
 };
 
-document.querySelector('.new-quote-button').addEventListener('click',()=>{
-  document.querySelector('.text span').innerHTML = 'Loading<i id="end-quotation" class="fa-solid fa-quote-right"></i>';
-  document.querySelector('.author-name').innerHTML = 'Loading';
-  getAndDisplayQuote();
-});
-
-
 class SpeakButton{
   #element;
   #playing;
   #paused;
+  #synth = window.speechSynthesis;
+  #speech = new SpeechSynthesisUtterance();
 
   constructor(element){
     this.#element = element;
@@ -40,18 +35,16 @@ class SpeakButton{
   addEvent(){
     this.#element.addEventListener('click',()=>{
       const playBtn = document.querySelector('.toolbar > button:nth-child(1)');
-      const speech = new SpeechSynthesisUtterance();
-      this.addEndEvent(speech);
-      const synth = window.speechSynthesis;
+      this.addEndEvent(this.#speech);
     
       if(this.#playing) {
-        synth.pause();
+        this.#synth.pause();
         this.#paused = true;
         this.#playing = false;
         playBtn.classList.toggle('active');
         return;
       }else if(!this.#playing && this.#paused){
-        synth.resume();
+        this.#synth.resume();
         this.#paused = false;
         this.#playing = true;
         playBtn.classList.toggle('active');
@@ -62,12 +55,11 @@ class SpeakButton{
       this.#playing = true;
     
       const textContent = document.querySelector('.text span').textContent;
-      const voices  = synth.getVoices();
+      const voices  = this.#synth.getVoices();
 
-      speech.text = textContent;
-      speech.voice = voices[0];
-      console.log(speech.voice)
-      synth.speak(speech);
+      this.#speech.text = textContent;
+      this.#speech.voice = voices[0];
+      this.#synth.speak(this.#speech);
     });
   };
 
@@ -81,9 +73,24 @@ class SpeakButton{
     });
   };
 
+  assignDefaultValues(){
+    this.#playing = false;
+    this.#paused = false;
+    this.#synth.cancel();
+  }
+
 };
 
-new SpeakButton(document.querySelector('.toolbar > button:nth-child(1)')).addEvent();
+const speakObj = new SpeakButton(document.querySelector('.toolbar > button:nth-child(1)'));
+speakObj.assignDefaultValues();
+speakObj.addEvent();
+
+document.querySelector('.new-quote-button').addEventListener('click',()=>{
+  document.querySelector('.text span').innerHTML = 'Loading<i id="end-quotation" class="fa-solid fa-quote-right"></i>';
+  document.querySelector('.author-name').innerHTML = 'Loading';
+  getAndDisplayQuote();
+  speakObj.assignDefaultValues();
+});
 
 class CopyBtn{
   #timeout = false;
