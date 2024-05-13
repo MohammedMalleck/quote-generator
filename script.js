@@ -14,8 +14,7 @@ function renderHTML(quoteString,authorName){
   const quoteTextEl = document.querySelector('.text span');
   const authorNameEl = document.querySelector('.author-name');
 
-  const modifiedQuoteStirng = quoteString.replace(lastWord,`<span class="last-word">${lastWord}<i id="end-quotation" class="fa-solid fa-quote-right"></i>
-  </span>`);
+  const modifiedQuoteStirng = quoteString.replace(lastWord,`<span class="last-word">${lastWord}<i id="end-quotation" class="fa-solid fa-quote-right"></i></span>`);
 
   quoteTextEl.innerHTML = modifiedQuoteStirng;
   authorNameEl.innerHTML = authorName;
